@@ -85,7 +85,7 @@ public class GameService {
 
         // Update player hand and draw to fill hand
         List<Character> playerHand = game.getHands(1);
-        for (var letter : validMove.get(1).split("")) {
+        for (var letter : validMove.get(1).toLowerCase().split("")) {
             playerHand.remove((Character) letter.charAt(0));
         }
 
@@ -99,7 +99,7 @@ public class GameService {
 
         // Update CPU hand and draw to fill hand
         List<Character> cpuHand = game.getHands(0);
-        for (var letter : bestCPUMove.get(1).split("")) {
+        for (var letter : bestCPUMove.get(1).toLowerCase().split("")) {
             cpuHand.remove((Character) letter.charAt(0));
         }
 
@@ -140,7 +140,7 @@ public class GameService {
 
         // Read dictionary
         try {
-            Scanner inScanner = new Scanner(new File("src/main/resources/wordlists/sowpods.txt"));
+            Scanner inScanner = new Scanner(new File("scrabble-server/src/main/resources/wordlists/sowpods.txt"));
             while (inScanner.hasNextLine()) {
                 input.add(inScanner.nextLine());
             }

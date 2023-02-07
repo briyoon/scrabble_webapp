@@ -63,12 +63,17 @@ public class Game {
     // New Game Constructor
     public Game(String gameID) {
         this.gameID = gameID;
-        this.board = new Board("src/main/resources/boards/defaultBoard.txt"); // @TODO: custom boards
+        this.board = new Board("scrabble-server/src/main/resources/boards/defaultBoard.txt"); // @TODO: custom boards
         this.dawg = new Dawg(); // @TODO: custom word lists
         this.hands = new ArrayList<List<Character>>() {
+            // testing
+            // {
+            //     add(new ArrayList<Character>(List.of('c', 'h', 'e', 's')));
+            //     add(new ArrayList<Character>(List.of('r',  'u', 'n')));
+            // }
             {
-                add(new ArrayList<Character>(List.of('c', 'h', 'e', 's')));
-                add(new ArrayList<Character>(List.of('r',  'u', 'n')));
+                add(new ArrayList<Character>());
+                add(new ArrayList<Character>());
             }
         };
         this.scores = new ArrayList<>(2) {
@@ -93,15 +98,15 @@ public class Game {
         }
 
         // Populate hands
-        // for (int i = 0; i < 7; i++) {
-        //     for (var hand : this.hands) {
-        //         drawTiles(hand, 1);
-        //     }
-        // }
+        for (int i = 0; i < 7; i++) {
+            for (var hand : this.hands) {
+                drawTiles(hand, 1);
+            }
+        }
 
         // Load dawg
         try {
-            FileInputStream fin = new FileInputStream("src/main/resources/dawgs/default.ser");
+            FileInputStream fin = new FileInputStream("scrabble-server/src/main/resources/dawgs/default.ser");
             ObjectInputStream ois = new ObjectInputStream(fin);
 
             this.dawg = (Dawg) ois.readObject();
@@ -122,7 +127,7 @@ public class Game {
 
         // Load dawg
         try {
-            FileInputStream fin = new FileInputStream("src/main/resources/dawgs/default.ser");
+            FileInputStream fin = new FileInputStream("scrabble-server/src/main/resources/dawgs/default.ser");
             ObjectInputStream ois = new ObjectInputStream(fin);
 
             this.dawg = (Dawg) ois.readObject();
@@ -143,7 +148,7 @@ public class Game {
 
         // Load dawg
         try {
-            FileInputStream fin = new FileInputStream("src/main/resources/dawgs/default.ser");
+            FileInputStream fin = new FileInputStream("scrabble-server/src/main/resources/dawgs/default.ser");
             ObjectInputStream ois = new ObjectInputStream(fin);
 
             this.dawg = (Dawg) ois.readObject();

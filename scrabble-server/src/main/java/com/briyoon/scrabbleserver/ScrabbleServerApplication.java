@@ -36,13 +36,13 @@ public class ScrabbleServerApplication {
 
 	public static void main(String[] args) {
         // Create dawg if doesnt exist
-        if (Files.notExists(Paths.get("src/main/resources/dawgs/default.ser"))) {
+        if (Files.notExists(Paths.get("scrabble-server/src/main/resources/dawgs/default.ser"))) {
             // Init default DAWG @TODO: support custom word lists
             Dawg dawg = new Dawg();
             try {
-                FileOutputStream fout = new FileOutputStream("src/main/resources/dawgs/default.ser", false);
+                FileOutputStream fout = new FileOutputStream("scrabble-server/src/main/resources/dawgs/default.ser", false);
                 ObjectOutputStream oos = new ObjectOutputStream(fout);
-                Scanner fileScanner = new Scanner(new File("src/main/resources/wordlists/sowpods.txt"));
+                Scanner fileScanner = new Scanner(new File("scrabble-server/src/main/resources/wordlists/sowpods.txt"));
 
                 while (fileScanner.hasNextLine()) {
                     dawg.insert(fileScanner.nextLine());
