@@ -40,7 +40,7 @@ public class DawgNode implements Serializable {
         return this.children;
     }
 
-    public Boolean getIsWord() {
+    public Boolean isWord() {
         return this.isWord;
     }
 

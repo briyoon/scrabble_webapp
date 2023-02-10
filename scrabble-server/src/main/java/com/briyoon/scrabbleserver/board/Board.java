@@ -7,7 +7,7 @@ import org.springframework.data.annotation.PersistenceCreator;
 
 public class Board {
     private int size;
-    private List<Character> tiles = new ArrayList<>();
+    private char[][] tiles;
 
     public Board(String path) {
         List<String> input = new ArrayList<>();
@@ -21,87 +21,117 @@ public class Board {
             e.printStackTrace();
         }
         this.size = Integer.parseInt(input.get(0));
+        tiles = new char[this.size][this.size];
         // add tiles from input
         for (int i = 1; i < this.size + 1; i++) {
+            int j = 0;
             for (String tile : input.get(i).split("")) {
-                tiles.add(tile.charAt(0));
+                tiles[i-1][j] = tile.charAt(0);
+                j++;
+            }
+        }
+    }
+
+    public Board(String boardString, int size) {
+        this.size = size;
+        this.tiles = new char[this.size][this.size];
+        // add tiles from input
+        for (int i = 0; i < this.size; i++) {
+            for (int j = 0; j < this.size; j++) {
+                tiles[i][j] = boardString.charAt((i * this.size) + j);
             }
         }
     }
 
     // Serialize constructor
     @PersistenceCreator
-    public Board(int size, List<Character> tiles) {
+    public Board(int size, char[][] tiles) {
         this.size = size;
-        this.tiles = tiles;
+        this.tiles = new char[this.size][this.size];
+        // add tiles from input
+        for (int i = 0; i < this.size; i++) {
+            for (int j = 0; j < this.size; j++) {
+                this.tiles[i][j] = tiles[i][j];
+            }
+        }
     }
 
     // Copy constructor
     public Board(Board board) {
         this.size = board.size;
-        for (int i = 0; i < board.size * board.size; i++) {
-            this.tiles.add((char) i);
+        this.tiles = new char[this.size][this.size];
+        // add tiles from input
+        for (int i = 0; i < this.size; i++) {
+            for (int j = 0; j < this.size; j++) {
+                tiles[i][j] = board.getTile(new Pos(j, i));
+            }
         }
-        Collections.copy(this.tiles, board.tiles);
     }
 
     public int getSize() {
         return size;
     }
 
-    public char getTile(List<Integer> pos) {
-        return tiles.get(pos.get(0) * size + pos.get(1));
+    public char getTile(Pos pos) {
+        return tiles[pos.getY()][pos.getX()];
     }
 
-    public List<Character> getTiles() {
+    public char[][] getTiles() {
         return tiles;
     }
 
-    public void setTile(List<Integer> pos, char letter) {
-        tiles.set(((pos.get(0)) * size) + (pos.get(1)), letter);
+    public void setTile(Pos pos, char letter) {
+        tiles[pos.getY()][pos.getX()] = letter;
     }
 
-    public List<List<Integer>> getAllPos() {
-        List<List<Integer>> positions = new ArrayList<>();
+    public List<Pos> getAllPos() {
+        List<Pos> positions = new ArrayList<>();
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
-                List<Integer> pos = new ArrayList<>(Arrays.asList(x, y));
-                positions.add(pos);
+                positions.add(new Pos(x, y));
             }
         }
 
         return positions;
     }
 
-    public boolean isValidPos(List<Integer> pos) {
-        return pos.get(0) >= 0 &&
-               pos.get(0) < size &&
-               pos.get(1) >= 0 &&
-               pos.get(1) < size;
+    public boolean isValidPos(Pos pos) {
+        return pos.getX() >= 0 &&
+               pos.getX() < size &&
+               pos.getY() >= 0 &&
+               pos.getY() < size;
     }
 
-    public boolean isEmpty(List<Integer> pos) {
-        return isValidPos(pos) &&
-               (tiles.get((pos.get(0) * size) + pos.get(1)).equals('.') ||
-               tiles.get((pos.get(0) * size) + pos.get(1)).equals('{') ||
-               tiles.get((pos.get(0) * size) + pos.get(1)).equals('[') ||
-               tiles.get((pos.get(0) * size) + pos.get(1)).equals('}') ||
-               tiles.get((pos.get(0) * size) + pos.get(1)).equals(']'));
+    public boolean isEmpty(Pos pos) {
+        return
+            isValidPos(pos) &&
+            (
+                tiles[pos.getY()][pos.getX()] == '.' ||
+                tiles[pos.getY()][pos.getX()] == '{' ||
+                tiles[pos.getY()][pos.getX()] == '[' ||
+                tiles[pos.getY()][pos.getX()] == '}' ||
+                tiles[pos.getY()][pos.getX()] == ']'
+            );
     }
 
-    public boolean isFilled(List<Integer> pos) {
-        return isValidPos(pos) &&
-               (!tiles.get((pos.get(0) * size) + pos.get(1)).equals('.') &&
-               !tiles.get((pos.get(0) * size) + pos.get(1)).equals('{') &&
-               !tiles.get((pos.get(0) * size) + pos.get(1)).equals('[') &&
-               !tiles.get((pos.get(0) * size) + pos.get(1)).equals('}') &&
-               !tiles.get((pos.get(0) * size) + pos.get(1)).equals(']'));
+    public boolean isFilled(Pos pos) {
+        return
+            isValidPos(pos) &&
+                (
+                    tiles[pos.getY()][pos.getX()] != '.' &&
+                    tiles[pos.getY()][pos.getX()] != '{' &&
+                    tiles[pos.getY()][pos.getX()] != '[' &&
+                    tiles[pos.getY()][pos.getX()] != '}' &&
+                    tiles[pos.getY()][pos.getX()] != ']'
+                );
     }
 
     public String toString() {
         String boardString = "";
-        for (var tile : tiles.toArray(new Character[tiles.size()])) {
-            boardString += tile;
+        for (var row : tiles) {
+            for (var tile : row) {
+                boardString += tile;
+            }
         }
 
         return boardString;
@@ -111,16 +141,27 @@ public class Board {
         String boardString = "";
         int tileCounter = 0;
         int rowCounter = 0;
-        for (var tile : tiles.toArray(new Character[tiles.size()])) {
-            tileCounter++;
-            boardString += tile;
-            if (tileCounter == size && rowCounter != size - 1) {
-                tileCounter = 0;
-                rowCounter++;
-                boardString += "\n";
+        for (var row : tiles) {
+            for (var tile : row) {
+                tileCounter++;
+                boardString += tile;
+                if (tileCounter == size && rowCounter != size - 1) {
+                    tileCounter = 0;
+                    rowCounter++;
+                    boardString += "\n";
+                }
             }
+
         }
 
         return boardString;
+    }
+
+    public static void main(String[] args) {
+        Pos pos1 = new Pos(1, 2);
+        Pos pos2 = new Pos(2, 1);
+
+        System.out.println(pos1.hashCode());
+        System.out.println(pos2.hashCode());
     }
 }

@@ -3,6 +3,7 @@ package com.briyoon.scrabbleserver.game;
 import com.briyoon.scrabbleserver.dawg.Dawg;
 import com.briyoon.scrabbleserver.documents.GameDoc;
 import com.briyoon.scrabbleserver.board.Board;
+import com.briyoon.scrabbleserver.board.Pos;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,6 @@ import static java.util.Map.entry;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class Game {
@@ -28,7 +28,7 @@ public class Game {
     private List<Integer> scores = new ArrayList<>();
     private List<Character> drawPile = new ArrayList<>();
     private List<String> msgArray = new ArrayList<>();
-    private List<String> jwts = new ArrayList<>();
+    // private List<String> jwts = new ArrayList<>();
 
     private static final Map<Character, Integer> drawList = Map.ofEntries(
         entry('*', 2),
@@ -65,17 +65,7 @@ public class Game {
         this.gameID = gameID;
         this.board = new Board("scrabble-server/src/main/resources/boards/defaultBoard.txt"); // @TODO: custom boards
         this.dawg = new Dawg(); // @TODO: custom word lists
-        this.hands = new ArrayList<List<Character>>() {
-            // testing
-            // {
-            //     add(new ArrayList<Character>(List.of('c', 'h', 'e', 's')));
-            //     add(new ArrayList<Character>(List.of('r',  'u', 'n')));
-            // }
-            {
-                add(new ArrayList<Character>());
-                add(new ArrayList<Character>());
-            }
-        };
+        this.hands = new ArrayList<List<Character>>();
         this.scores = new ArrayList<>(2) {
             {
                 add(0);
@@ -205,16 +195,19 @@ public class Game {
     }
 
     public void setBoard(String boardStr) {
-        for (int i = 0; i < boardStr.length(); i++) {
-            this.board.setTile(
-                new ArrayList<Integer>(
-                    Arrays.asList(
-                        i / this.board.getSize(),
-                        i % this.board.getSize()
-                    )
-                ),
-                boardStr.charAt(i)
-            );
+        try {
+            if (boardStr.length() > this.board.getSize() * this.board.getSize()) {
+                throw new Exception("Invalid board string submitted for board size");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+
+        for (int i = 0; i < this.board.getSize(); i++) {
+            for (int j = 0; j < this.board.getSize(); j++) {
+                this.board.setTile(new Pos(j, i), boardStr.charAt((i * this.board.getSize()) + j));
+            }
         }
     }
 
