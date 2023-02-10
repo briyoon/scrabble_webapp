@@ -65,8 +65,13 @@ public class Game {
         this.gameID = gameID;
         this.board = new Board("scrabble-server/src/main/resources/boards/defaultBoard.txt"); // @TODO: custom boards
         this.dawg = new Dawg(); // @TODO: custom word lists
-        this.hands = new ArrayList<List<Character>>();
-        this.scores = new ArrayList<>(2) {
+        this.hands = new ArrayList<List<Character>>() {
+            {
+                add(new ArrayList<Character>());
+                add(new ArrayList<Character>());
+            }
+        };
+        this.scores = new ArrayList<>() {
             {
                 add(0);
                 add(0);
