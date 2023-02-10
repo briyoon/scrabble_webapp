@@ -6,7 +6,7 @@ import DnDTypes from '../DnDTypes'
 
 import './Tile.css'
 
-const TrayTile = (({ id, index, letter, swapTile, preview }) => {
+const TrayTile = (({ id, index, letter, swapTile, preview, moveTileToTray }) => {
     let cssClass = "moveable"
     if (letter === "") {
         cssClass = "blank"
@@ -66,6 +66,16 @@ const TrayTile = (({ id, index, letter, swapTile, preview }) => {
             // Time to actually perform the action
             swapTile(dragIndex, hoverIndex)
             item.index = hoverIndex
+        },
+        drop: (item, monitor) => {
+            switch (monitor.getItemType()) {
+                case DnDTypes.BoardTile:
+                    moveTileToTray(id, item.id)
+                    break;
+                default:
+                    console.log("deafult: ", monitor.getItemType())
+                    break;
+            }
         }
     }, [letter]);
 

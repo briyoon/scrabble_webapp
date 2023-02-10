@@ -6,7 +6,7 @@ import TrayTile from "./TrayTile"
 import './Tray.css'
 import { useEffect } from 'react'
 
-function Tray({ hand, setHand, resetState}) {
+function Tray({ hand, setHand, resetState, moveTileToTray}) {
     const swapTile = useCallback((dragIndex, hoverIndex) => {
         setHand((prevHand) =>
             update(prevHand, {
@@ -20,7 +20,7 @@ function Tray({ hand, setHand, resetState}) {
 
     const renderTile = useCallback((tile, index) => {
         return (
-            <TrayTile key={tile.id} id={tile.id} index={index} letter={tile.letter} swapTile={swapTile}/>
+            <TrayTile key={tile.id} id={tile.id} index={index} letter={tile.letter} swapTile={swapTile} moveTileToTray={moveTileToTray} />
         )
     }, [hand])
 

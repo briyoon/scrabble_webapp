@@ -25,8 +25,10 @@ const Game = (() => {
 
     const submitBoard = async () => {
         console.log("Submitting move")
+        let boardString = board.tiles.reduce((acc, row) => {return acc.concat(row)}).join('')
+        console.log(boardString)
         const res = await fetch(
-            "http://localhost:8080/api/games?" + new URLSearchParams({gameID: params.gameID, newBoard: JSON.stringify(board.tiles.join(''))}),
+            "http://localhost:8080/api/games?" + new URLSearchParams({gameID: params.gameID, newBoard: boardString}),
             {
                 method: 'PATCH',
                 headers: {
@@ -91,6 +93,7 @@ const Game = (() => {
 
             if (res.status == 200) {
                 let body = await res.json();
+                console.log(body)
                 setBoard(body.board);
                 setogBoard(body.board);
                 setHand((body.hand.map((letter, index) => {
@@ -116,29 +119,51 @@ const Game = (() => {
         let tmpHand = JSON.parse(JSON.stringify(hand));
         let trayIndex = tmpHand.map(e => e.id).indexOf(trayId);
 
-        tmpBoard.tiles[boardIndex] = tmpHand[trayIndex].letter;
+        tmpBoard.tiles[Math.floor(boardIndex / tmpBoard.size)][boardIndex % tmpBoard.size] = tmpHand[trayIndex].letter;
         tmpHand[trayIndex].letter = "";
         setHand(tmpHand);
         setBoard(tmpBoard);
     }, [hand, board]);
 
-    const moveTile = useCallback((dropIndex, dragIndex) => {
-        console.log("moving tile");
+    const moveTileToBoard = useCallback((dropIndex, dragIndex) => {
+        console.log("moving tile to board");
+
         let tmpBoard = JSON.parse(JSON.stringify(board));
-        if (/[A-Za-z]/.test(tmpBoard.tiles[dropIndex])) {
+
+        let iDrag = Math.floor(dragIndex / tmpBoard.size)
+        let jDrag = dragIndex % tmpBoard.size
+        let iDrop = Math.floor(dropIndex / tmpBoard.size)
+        let jDrop = dropIndex % tmpBoard.size
+
+        if (/[A-Za-z]/.test(tmpBoard.tiles[iDrop][jDrop])) {
             return;
         }
 
-        tmpBoard.tiles[dropIndex] = tmpBoard.tiles[dragIndex];
-        if (dragIndex in ogBoard.tiles) {
-            tmpBoard.tiles[dragIndex] = ogBoard.tiles[dragIndex]
-        }
-        else {
-            tmpBoard.tiles[dragIndex] = ".";
-        }
+        tmpBoard.tiles[iDrop][jDrop] = tmpBoard.tiles[iDrag][jDrag]
+        tmpBoard.tiles[iDrag][jDrag] = ogBoard.tiles[iDrag][jDrag]
 
         setBoard(tmpBoard);
     }, [board]);
+
+    const moveTileToTray = useCallback((dropIndex, dragIndex) => {
+        console.log("moving tile to tray");
+
+        let tmpBoard = JSON.parse(JSON.stringify(board));
+        let tmpHand = JSON.parse(JSON.stringify(hand));
+
+        let iDrag = Math.floor(dragIndex / tmpBoard.size)
+        let jDrag = dragIndex % tmpBoard.size
+
+        if (/[A-Za-z]/.test(tmpHand[dropIndex].letter)) {
+            return;
+        }
+
+        tmpHand[dropIndex].letter = tmpBoard.tiles[iDrag][jDrag]
+        tmpBoard.tiles[iDrag][jDrag] = ogBoard.tiles[iDrag][jDrag]
+
+        setBoard(tmpBoard);
+        setHand(tmpHand);
+    }, [hand, board]);
 
     if (loading) {
         return (
@@ -160,13 +185,13 @@ const Game = (() => {
             <DndProvider backend={HTML5Backend}>
                 <div className="container">
                     <div className="element left">
-                        <Board board={board} placeTile={placeTile} moveTile={moveTile} />
+                        <Board board={board} placeTile={placeTile} moveTileToBoard={moveTileToBoard} ogBoard={ogBoard} />
                     </div>
                     <div className="element right">
                         <h3>{params.gameID}</h3>
                         <Scores scores={scores} />
                         <GameHistory msgArray={msgArray} />
-                        <Tray hand={hand} setHand={setHand} />
+                        <Tray hand={hand} setHand={setHand} moveTileToTray={moveTileToTray} />
                         <div>
                             <button onClick={() => submitBoard()}>Submit</button>
                             <button onClick={() => resetState()}>Reset</button>

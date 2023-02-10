@@ -6,7 +6,7 @@ import DnDTypes from '../DnDTypes';
 
 import './Tile.css'
 
-function BoardTile({ id, value, placeTile, moveTile }) {
+function BoardTile({ id, value, placeTile, moveTileToBoard, ogBoard }) {
     let cssClass;
     let letter;
     const ref = useRef(null)
@@ -41,9 +41,8 @@ function BoardTile({ id, value, placeTile, moveTile }) {
             letter = ""
             break;
         default:
-            console.log(value);
-            // upper case means final
-            if (value === value.toUpperCase()) {
+            // if on ogBoard, tile cant be noved
+            if (ogBoard.tiles[Math.floor(id / ogBoard.size)][id % ogBoard.size] === value) {
                 cssClass = "filled"
             }
             else {
@@ -72,7 +71,7 @@ function BoardTile({ id, value, placeTile, moveTile }) {
                     placeTile(id, item.id);
                     break;
                 case DnDTypes.BoardTile:
-                    moveTile(id, item.id)
+                    moveTileToBoard(id, item.id)
                     break;
                 default:
                     console.log("deafult: ", monitor.getItemType())
