@@ -4,7 +4,7 @@ function App() {
   return (
     <div className="App">
         <button className={"menubutton"} onClick={postGame}>Create Game</button>
-        <button className={"menubutton"} >Resume Game</button>
+        <button className={"menubutton"} disabled={true}>Resume Game</button>
     </div>
   )
 }
