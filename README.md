@@ -3,11 +3,14 @@ This is a webapp using ReactJS for the front end, Spring for the backend, and Mo
 
 ## TODO:
 ### Client
-- add dragging tiles back to hand
+- ~~add dragging tiles back to hand~~
+- make home page look better
 - add typing to place tiles
-- resume page
+- add resume game page
+- add solver page
 ### Server
-- rewrite solver
+- ~~rewrite solver~~
+- secure mongoDB instance
 - authentication
 - custom word lists
 - custom boards
