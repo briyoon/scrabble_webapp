@@ -1,6 +1,6 @@
 package com.briyoon.scrabbleserver.board;
 
-import java.io.File;
+import java.io.InputStream;
 import java.util.*;
 
 import org.springframework.data.annotation.PersistenceCreator;
@@ -12,7 +12,9 @@ public class Board {
     public Board(String path) {
         List<String> input = new ArrayList<>();
         try {
-            Scanner inScanner = new Scanner(new File(path));
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            InputStream is = classloader.getResourceAsStream(path);
+            Scanner inScanner = new Scanner(is);
             while (inScanner.hasNextLine()) {
                 input.add(inScanner.nextLine());
             }

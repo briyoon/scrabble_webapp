@@ -14,7 +14,7 @@ import org.springframework.data.annotation.Id;
 
 import static java.util.Map.entry;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,7 +63,7 @@ public class Game {
     // New Game Constructor
     public Game(String gameID) {
         this.gameID = gameID;
-        this.board = new Board("scrabble-server/src/main/resources/boards/defaultBoard.txt"); // @TODO: custom boards
+        this.board = new Board("boards/defaultBoard.txt"); // @TODO: custom boards
         this.dawg = new Dawg(); // @TODO: custom word lists
         this.hands = new ArrayList<List<Character>>() {
             {
@@ -101,8 +101,9 @@ public class Game {
 
         // Load dawg
         try {
-            FileInputStream fin = new FileInputStream("scrabble-server/src/main/resources/dawgs/default.ser");
-            ObjectInputStream ois = new ObjectInputStream(fin);
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            InputStream is = classloader.getResourceAsStream("dawgs/default.ser");
+            ObjectInputStream ois = new ObjectInputStream(is);
 
             this.dawg = (Dawg) ois.readObject();
 
@@ -122,8 +123,9 @@ public class Game {
 
         // Load dawg
         try {
-            FileInputStream fin = new FileInputStream("scrabble-server/src/main/resources/dawgs/default.ser");
-            ObjectInputStream ois = new ObjectInputStream(fin);
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            InputStream is = classloader.getResourceAsStream("dawgs/default.ser");
+            ObjectInputStream ois = new ObjectInputStream(is);
 
             this.dawg = (Dawg) ois.readObject();
 
@@ -143,8 +145,9 @@ public class Game {
 
         // Load dawg
         try {
-            FileInputStream fin = new FileInputStream("scrabble-server/src/main/resources/dawgs/default.ser");
-            ObjectInputStream ois = new ObjectInputStream(fin);
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            InputStream is = classloader.getResourceAsStream("dawgs/default.ser");
+            ObjectInputStream ois = new ObjectInputStream(is);
 
             this.dawg = (Dawg) ois.readObject();
 

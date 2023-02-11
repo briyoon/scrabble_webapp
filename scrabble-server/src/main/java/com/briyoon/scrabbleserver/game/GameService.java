@@ -1,6 +1,6 @@
 package com.briyoon.scrabbleserver.game;
 
-import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -149,7 +149,9 @@ public class GameService {
 
         // Read dictionary
         try {
-            Scanner inScanner = new Scanner(new File("scrabble-server/src/main/resources/wordlists/sowpods.txt"));
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            InputStream is = classloader.getResourceAsStream("wordlists/sowpods.txt");
+            Scanner inScanner = new Scanner(is);
             while (inScanner.hasNextLine()) {
                 input.add(inScanner.nextLine());
             }
