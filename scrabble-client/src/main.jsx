@@ -9,8 +9,8 @@ import {
 } from "react-router-dom";
 
 import App from './routes/App';
-import Game from "./routes/Game";
-import ErrorPage from "./routes/ErrorPage";
+import Game from "./routes/game/Game";
+import ErrorPage from "./routes/error/ErrorPage";
 
 const router = createBrowserRouter([
   {

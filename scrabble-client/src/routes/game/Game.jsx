@@ -4,13 +4,13 @@ import { useParams } from "react-router";
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-import Board from "../components/Board";
-import Scores from "../components/Scores";
-import GameHistory from "../components/GameHistory";
-import Tray from "../components/Tray";
+import Board from "../../components/Board";
+import Scores from "../../components/Scores";
+import GameHistory from "../../components/GameHistory";
+import Tray from "../../components/Tray";
 
 import './Game.css';
-import { CustomDragLayer } from "../components/CustomDragLayer";
+// import { CustomDragLayer } from "../components/CustomDragLayer";
 
 const Game = (() => {
     const [loading, setLoading] = useState(true);
