@@ -26,8 +26,10 @@ public class GameService {
     GameRepository gameRepo;
 
     public GameDoc getGameDoc(String gameID) {
+        System.out.println("gameid: " + gameID);
         // Find game by ID in DB and return
         GameDoc gameDoc = gameRepo.findGameByID(gameID);
+        System.out.println("gameDoc: " + gameDoc);
 
         return gameDoc;
     }

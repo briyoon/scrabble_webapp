@@ -1,11 +1,9 @@
-import './Board.css'
+import './Board.css';
 import BoardTile from './BoardTile';
 
 function Board({ board, placeTile, moveTileToBoard, ogBoard }) {
     let size = board.size
     let tiles = board.tiles
-
-    console.log(tiles)
 
     return (
         <div className='board'>

@@ -25,6 +25,8 @@ public class GameController {
     public ResponseEntity<?> getGame(String gameID) {
         ResponseEntity<?> res;
 
+        System.out.println("gameID: gameID");
+
         GameDoc gameDoc = this.gameService.getGameDoc(gameID);
 
         if (gameDoc != null) {

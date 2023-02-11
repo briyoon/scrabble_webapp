@@ -6,6 +6,9 @@ services:
       - 27017
     volumes:
       - mongodb-data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: rootDev
+      MONGO_INITDB_ROOT_PASSWORD: password
     networks:
       - app_network
   frontend:
