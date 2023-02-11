@@ -1,24 +1,21 @@
 import { useRouter } from "next/router";
 
-import './App.css'
-
 function App() {
-
-  return (
-    <div className="App">
-        <button className={"menubutton"} onClick={postGame}>Create Game</button>
-        <button className={"menubutton"} disabled={true}>Resume Game</button>
-    </div>
-  )
-}
-
-async function postGame() {
-    console.log("Creating game")
-
     const router = useRouter();
 
+    return (
+        <div className="App">
+            <button className={"menubutton"} onClick={postGame(router)}>Create Game</button>
+            <button className={"menubutton"} disabled={true}>Resume Game</button>
+        </div>
+    )
+}
+
+async function postGame(router) {
+    console.log("Creating game")
+
     const res = await fetch(
-        "/api/games",
+        "http://localhost:8080/api/games",
         {
         method: 'POST',
         headers: {

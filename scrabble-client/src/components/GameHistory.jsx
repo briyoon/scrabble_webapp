@@ -1,10 +1,10 @@
 
-import './GameHistory.css'
+import './GameHistory.module.css'
 
 const GameHistory = (({ msgArray }) => {
     return (
         <div className="game-history">
-            <textarea value={msgArray.join('\n')} readOnly/>
+            <textarea className="textarea" value={msgArray.join('\n')} readOnly/>
         </div>
     );
 });

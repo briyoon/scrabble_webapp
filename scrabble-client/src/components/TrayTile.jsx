@@ -4,7 +4,7 @@ import { useDrag, useDrop } from 'react-dnd';
 
 import DnDTypes from '../DnDTypes'
 
-import './Tile.css'
+import './Tile.module.css'
 
 const TrayTile = (({ id, index, letter, swapTile, preview, moveTileToTray }) => {
     let cssClass = "moveable"

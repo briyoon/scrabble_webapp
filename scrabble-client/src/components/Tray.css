@@ -1,8 +1,0 @@
-.tray-tiles {
-    display: flex;
-    flex-direction: row;
-    flex-basis: var(--tile-size);
-    margin: 1rem 4rem;
-    box-sizing: border-box;
-    justify-content: center;
-}

@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import TrayTile from './TrayTile.jsx'
 
-import './Tray.css'
+import './Tray.module.css'
 
 export const TrayTilePreview = memo(function TrayTilePreview({ id, index, letter, swapTile }) {
     return (

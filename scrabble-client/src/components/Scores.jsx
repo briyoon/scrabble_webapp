@@ -1,5 +1,5 @@
 import React from 'react'
-import './Scores.css'
+import './Scores.module.css'
 
 const Scores = (({ scores }) => {
     return (

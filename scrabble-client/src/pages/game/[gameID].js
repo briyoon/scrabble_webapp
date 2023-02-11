@@ -9,7 +9,7 @@ import Scores from "../../components/Scores";
 import GameHistory from "../../components/GameHistory";
 import Tray from "../../components/Tray";
 
-import './Game.css';
+import * as styles from '../../styles/game.module.css';
 // import { CustomDragLayer } from "../components/CustomDragLayer";
 
 const Game = (() => {
@@ -28,7 +28,7 @@ const Game = (() => {
         let boardString = board.tiles.reduce((acc, row) => {return acc.concat(row)}).join('')
         console.log(boardString)
         const res = await fetch(
-            "/api/games?" + new URLSearchParams({gameID: params.gameID, newBoard: boardString}),
+            "http://localhost:8080/api/games?" + new URLSearchParams({gameID: params.gameID, newBoard: boardString}),
             {
                 method: 'PATCH',
                 headers: {
@@ -80,7 +80,7 @@ const Game = (() => {
         const getGame = async (gameID) => {
             console.log("getting game info");
             const res = await fetch(
-              "/api/games?" + new URLSearchParams({gameID: gameID}),
+              "http://localhost:8080/api/games?" + new URLSearchParams({gameID: gameID}),
               {
                 method: 'GET',
                 headers: {
@@ -183,11 +183,11 @@ const Game = (() => {
     else {
         return (
             <DndProvider backend={HTML5Backend}>
-                <div className="container">
-                    <div className="element left">
+                <div className={styles.container}>
+                    <div className={styles.element + styles.left}>
                         <Board board={board} placeTile={placeTile} moveTileToBoard={moveTileToBoard} ogBoard={ogBoard} />
                     </div>
-                    <div className="element right">
+                    <div className={styles.element + styles.left}>
                         <h3>{params.gameID}</h3>
                         <Scores scores={scores} />
                         <GameHistory msgArray={msgArray} />

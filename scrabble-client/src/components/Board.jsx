@@ -1,4 +1,4 @@
-import './Board.css';
+import './Board.module.css';
 import BoardTile from './BoardTile';
 
 function Board({ board, placeTile, moveTileToBoard, ogBoard }) {
@@ -14,7 +14,7 @@ function Board({ board, placeTile, moveTileToBoard, ogBoard }) {
                             <tr key={i}>
                                 {row.map((col, j) => {
                                     return (
-                                        <td key={j}>
+                                        <td className="td" key={j}>
                                             {<BoardTile key={i * size + j} id={i * size + j} value={col} placeTile={placeTile} moveTileToBoard={moveTileToBoard} ogBoard={ogBoard}/>}
                                         </td>
                                     )

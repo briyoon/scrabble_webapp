@@ -4,7 +4,7 @@ import { useDrag, useDrop } from 'react-dnd';
 
 import DnDTypes from '../DnDTypes';
 
-import './Tile.css'
+import './Tile.module.css'
 
 function BoardTile({ id, value, placeTile, moveTileToBoard, ogBoard }) {
     let cssClass;

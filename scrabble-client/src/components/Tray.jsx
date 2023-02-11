@@ -3,8 +3,7 @@ import { useCallback } from "react"
 
 import TrayTile from "./TrayTile"
 
-import './Tray.css'
-import { useEffect } from 'react'
+import './Tray.module.css'
 
 function Tray({ hand, setHand, resetState, moveTileToTray}) {
     const swapTile = useCallback((dragIndex, hoverIndex) => {
