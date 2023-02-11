@@ -12,7 +12,7 @@ function App() {
 async function postGame() {
   console.log("Creating game")
   const res = await fetch(
-    `${window.location.hostname}/api/games`,
+    "/api/games",
     {
       method: 'POST',
       headers: {

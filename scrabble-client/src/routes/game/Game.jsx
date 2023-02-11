@@ -28,7 +28,7 @@ const Game = (() => {
         let boardString = board.tiles.reduce((acc, row) => {return acc.concat(row)}).join('')
         console.log(boardString)
         const res = await fetch(
-            `${window.location.hostname}/api/games`, + new URLSearchParams({gameID: params.gameID, newBoard: boardString}),
+            "/api/games?" + new URLSearchParams({gameID: params.gameID, newBoard: boardString}),
             {
                 method: 'PATCH',
                 headers: {
