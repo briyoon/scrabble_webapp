@@ -1,0 +1,30 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo:6.0.4
+    expose:
+      - 27017
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - app_network
+  frontend:
+    build:
+      context: ./scrabble-client
+    networks:
+      - app_network
+    ports:
+      - 127.0.0.1:8081:8080
+  backend:
+    build:
+      context: ./scrabble-server
+    depends_on:
+      - mongodb
+    networks:
+      - app_network
+    ports:
+      - 127.0.0.1:8080:8080
+networks:
+  app_network:
+volumes:
+  mongodb-data:

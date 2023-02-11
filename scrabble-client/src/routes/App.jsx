@@ -18,7 +18,6 @@ async function postGame() {
       headers: {
         'Content-Type': 'application/json'
       },
-      // mode: 'cors',
       cache: 'default'
     }
   );

@@ -7,33 +7,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.briyoon.scrabbleserver.dawg.Dawg;
 
 @SpringBootApplication
 public class ScrabbleServerApplication {
-    @Autowired
-    private Environment env;
-
-	@Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry
-					.addMapping("/api/**")
-					.allowedOrigins(env.getProperty("client_origin"));
-            }
-        };
-	}
-
 	public static void main(String[] args) {
         // Create dawg if doesnt exist
         if (Files.notExists(Paths.get("scrabble-server/src/main/resources/dawgs/default.ser"))) {
@@ -60,5 +40,4 @@ public class ScrabbleServerApplication {
 
 		SpringApplication.run(ScrabbleServerApplication.class, args);
 	}
-
 }
