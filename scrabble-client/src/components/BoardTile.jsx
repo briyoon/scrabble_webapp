@@ -1,52 +1,51 @@
 import React from 'react';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
 import DnDTypes from '../DnDTypes';
 
-import './Tile.module.css'
+import styles from './Tile.module.css'
 
-function BoardTile({ id, value, placeTile, moveTileToBoard, ogBoard }) {
+function BoardTile({ id, value, placeTile, moveTileToBoard, ogTile }) {
     let cssClass;
     let letter;
-    const ref = useRef(null)
 
     switch (value) {
         case ")":
-            cssClass = "qw";
+            cssClass = styles.qw;
             letter = "Quad\nWord"
             break;
         case "}":
-            cssClass = "tw";
+            cssClass = styles.tw;
             letter = "TW"
             break;
         case "]":
-            cssClass = "dw";
+            cssClass = styles.dw;
             letter = "DW"
             break;
         case "(":
-            cssClass = "ql";
+            cssClass = styles.ql;
             letter = "Quad\nLetter"
             break;
         case "{":
-            cssClass = "tl";
+            cssClass = styles.tl;
             letter = "TL"
             break;
         case "[":
-            cssClass = "dl";
+            cssClass = styles.dl;
             letter = "DL"
             break;
         case ".":
-            cssClass = "blank";
+            cssClass = styles.blank;
             letter = ""
             break;
         default:
-            // if on ogBoard, tile cant be noved
-            if (ogBoard.tiles[Math.floor(id / ogBoard.size)][id % ogBoard.size] === value) {
-                cssClass = "filled"
+            // if on ogBoard, tile cant be moved
+            if (ogTile === value) {
+                cssClass = styles.filled
             }
             else {
-                cssClass = "moveable";
+                cssClass = styles.moveable;
             }
             letter = value.toLowerCase()
             break;
@@ -82,24 +81,42 @@ function BoardTile({ id, value, placeTile, moveTileToBoard, ogBoard }) {
     }, [placeTile])
 
     const checkEmpty = (() => {
-        return cssClass !== "filled"
+        console.log(cssClass)
+        return (cssClass !== styles.filled) || (cssClass !== styles.moveable)
     })
 
-    if (cssClass === "moveable") {
-        drag(drop(ref))
+    if (cssClass === styles.moveable) {
+        return (
+            <div
+                className={`${styles.tile} ${cssClass}`}
+                ref={drag}
+            >
+                {letter}
+            </div>
+        )
+    }
+    else if (cssClass !== styles.filled) {
+        return (
+            <div
+                className={`${styles.tile} ${cssClass}`}
+                ref={drop}
+            >
+                {letter}
+            </div>
+        )
     }
     else {
-        drop(ref)
+        return (
+            <div
+                id={id}
+                className={`${styles.tile} ${cssClass}`}
+            >
+                {letter}
+            </div>
+        )
     }
 
-    return (
-        <div
-            className={"tile " + cssClass}
-            ref={ref}
-        >
-            {letter}
-        </div>
-    )
+
 }
 
 export default BoardTile

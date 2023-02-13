@@ -1,15 +1,15 @@
 import React from 'react';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
 import DnDTypes from '../DnDTypes'
 
-import './Tile.module.css'
+import styles from './Tile.module.css'
 
 const TrayTile = (({ id, index, letter, swapTile, preview, moveTileToTray }) => {
-    let cssClass = "moveable"
+    let cssClass = styles.moveable
     if (letter === "") {
-        cssClass = "blank"
+        cssClass = styles.blank
     }
 
     const ref = useRef(null)
@@ -30,47 +30,47 @@ const TrayTile = (({ id, index, letter, swapTile, preview, moveTileToTray }) => 
         collect: (monitor) => ({
             handlerId: monitor.getHandlerId()
         }),
-        hover: (item, monitor) => {
-            if (monitor.getItemType() !== DnDTypes.TrayTile) {
-                return
-            }
-            if (!ref.current) {
-                return
-            }
+        // hover: (item, monitor) => {
+        //     if (monitor.getItemType() !== DnDTypes.TrayTile) {
+        //         return
+        //     }
+        //     if (!ref.current) {
+        //         return
+        //     }
 
-            const dragIndex = item.index
-            const hoverIndex = index
+        //     const dragIndex = item.index
+        //     const hoverIndex = index
 
-            if (dragIndex === hoverIndex) {
-                return
-            }
+        //     if (dragIndex === hoverIndex) {
+        //         return
+        //     }
 
-            // Determine rectangle on screen
-            const hoverBoundingRect = ref.current?.getBoundingClientRect()
-            // Get horizontal middle
-            const hoverMiddleX = hoverBoundingRect.width / 2
-            // Determine mouse position
-            const clientOffset = monitor.getClientOffset()
-            // Get pixels to the left
-            const hoverClientX = clientOffset.x - hoverBoundingRect.left
+        //     // Determine rectangle on screen
+        //     const hoverBoundingRect = ref.current?.getBoundingClientRect()
+        //     // Get horizontal middle
+        //     const hoverMiddleX = hoverBoundingRect.width / 2
+        //     // Determine mouse position
+        //     const clientOffset = monitor.getClientOffset()
+        //     // Get pixels to the left
+        //     const hoverClientX = clientOffset.x - hoverBoundingRect.left
 
-            // check right
-            if (dragIndex < hoverIndex && hoverClientX < hoverMiddleX) {
-                return
-            }
-            // check left
-            if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) {
-                return
-            }
+        //     // check right
+        //     if (dragIndex < hoverIndex && hoverClientX < hoverMiddleX) {
+        //         return
+        //     }
+        //     // check left
+        //     if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) {
+        //         return
+        //     }
 
-            // Time to actually perform the action
-            swapTile(dragIndex, hoverIndex)
-            item.index = hoverIndex
-        },
+        //     // Time to actually perform the action
+        //     swapTile(dragIndex, hoverIndex)
+        //     item.index = hoverIndex
+        // },
         drop: (item, monitor) => {
             switch (monitor.getItemType()) {
                 case DnDTypes.BoardTile:
-                    moveTileToTray(id, item.id)
+                    // moveTileToTray(id, item.id)
                     break;
                 default:
                     console.log("deafult: ", monitor.getItemType())
@@ -79,23 +79,29 @@ const TrayTile = (({ id, index, letter, swapTile, preview, moveTileToTray }) => 
         }
     }, [letter]);
 
-    if (cssClass === "moveable") {
-        drop(drag(ref))
+    if (cssClass === styles.moveable) {
+        return (
+            <div
+                className={`${styles.tile} ${(isDragging ? styles.blank : cssClass)}`}
+                ref={drag}
+                data-handler-id={handlerId}
+                // role={preview ? 'TrayTilePreview' : 'TrayTile'}
+            >
+                {isDragging ? "" : letter}
+            </div>
+        )
     }
     else {
-        drop(ref)
+        return (
+            <div
+                className={`${styles.tile} ${(isDragging ? styles.blank : cssClass)}`}
+                data-handler-id={handlerId}
+                // role={preview ? 'TrayTilePreview' : 'TrayTile'}
+            >
+                {isDragging ? "" : letter}
+            </div>
+        )
     }
-
-    return (
-        <div
-            className={"tile " + (isDragging ? "blank" : cssClass)}
-            ref={ref}
-            data-handler-id={handlerId}
-            role={preview ? 'TrayTilePreview' : 'TrayTile'}
-        >
-            {isDragging ? "" : letter}
-        </div>
-    )
 });
 
 export default TrayTile;

@@ -1,7 +1,0 @@
-cd scrabble-server
-mvn spring-boot:run
-
-cd ..
-
-cd scrabble-client
-npm run

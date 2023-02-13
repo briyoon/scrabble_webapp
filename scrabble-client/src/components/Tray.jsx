@@ -3,7 +3,7 @@ import { useCallback } from "react"
 
 import TrayTile from "./TrayTile"
 
-import './Tray.module.css'
+import styles from './Tray.module.css'
 
 function Tray({ hand, setHand, resetState, moveTileToTray}) {
     const swapTile = useCallback((dragIndex, hoverIndex) => {
@@ -15,7 +15,12 @@ function Tray({ hand, setHand, resetState, moveTileToTray}) {
                 ],
             }),
         )
-    }, [hand, setHand])
+        // let tmpHand = JSON.parse(JSON.stringify(hand))
+        // let dragLetter = tmpHand[dragIndex].letter
+        // tmpHand[dragIndex].letter = tmpHand[hoverIndex].letter
+        // tmpHand[hoverIndex].letter = dragLetter
+        // setHand(tmpHand)
+    }, [])
 
     const renderTile = useCallback((tile, index) => {
         return (
@@ -24,8 +29,8 @@ function Tray({ hand, setHand, resetState, moveTileToTray}) {
     }, [hand])
 
     return (
-        <div className="tray">
-            <div className="tray-tiles">
+        <div className={styles.tray}>
+            <div className={styles.trayTiles}>
                 {hand.map((tile, index) => renderTile(tile, index))}
             </div>
         </div>

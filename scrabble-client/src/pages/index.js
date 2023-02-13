@@ -5,8 +5,9 @@ function App() {
 
     return (
         <div className="App">
-            <button className={"menubutton"} onClick={postGame(router)}>Create Game</button>
-            <button className={"menubutton"} disabled={true}>Resume Game</button>
+            <button className="menubutton" onClick={() => postGame(router)}>Create Game</button>
+            <button className="menubutton" disabled={true}>Resume Game</button>
+            <button className="menubutton" disabled={true}>Solver</button>
         </div>
     )
 }
@@ -15,7 +16,7 @@ async function postGame(router) {
     console.log("Creating game")
 
     const res = await fetch(
-        "http://localhost:8080/api/games",
+        "/api/games",
         {
         method: 'POST',
         headers: {

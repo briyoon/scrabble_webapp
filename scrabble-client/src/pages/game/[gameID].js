@@ -9,12 +9,12 @@ import Scores from "../../components/Scores";
 import GameHistory from "../../components/GameHistory";
 import Tray from "../../components/Tray";
 
-import * as styles from '../../styles/game.module.css';
+import styles from '../../styles/game.module.css';
 // import { CustomDragLayer } from "../components/CustomDragLayer";
 
 const Game = (() => {
     const [loading, setLoading] = useState(true);
-    const [board, setBoard] = useState(null);
+    const [board, setBoard, getBoard] = useState(null);
     const [hand, setHand] = useState(null);
     const [ogBoard, setogBoard] = useState(null);
     const [ogHand, setogHand] = useState(null);
@@ -28,7 +28,7 @@ const Game = (() => {
         let boardString = board.tiles.reduce((acc, row) => {return acc.concat(row)}).join('')
         console.log(boardString)
         const res = await fetch(
-            "http://localhost:8080/api/games?" + new URLSearchParams({gameID: params.gameID, newBoard: boardString}),
+            "/api/games?" + new URLSearchParams({gameID: params.gameID, newBoard: boardString}),
             {
                 method: 'PATCH',
                 headers: {
@@ -80,7 +80,7 @@ const Game = (() => {
         const getGame = async (gameID) => {
             console.log("getting game info");
             const res = await fetch(
-              "http://localhost:8080/api/games?" + new URLSearchParams({gameID: gameID}),
+              "/api/games?" + new URLSearchParams({gameID: gameID}),
               {
                 method: 'GET',
                 headers: {
@@ -110,11 +110,10 @@ const Game = (() => {
         }
         // console.log(params.gameID)
         getGame(params.gameID);
-    }, [params]);
+    }, [params, loading]);
 
     const placeTile = useCallback((boardIndex, trayId) => {
         console.log("placing tile");
-        console.log(boardIndex, trayId);
         let tmpBoard = JSON.parse(JSON.stringify(board));
         let tmpHand = JSON.parse(JSON.stringify(hand));
         let trayIndex = tmpHand.map(e => e.id).indexOf(trayId);
@@ -135,18 +134,16 @@ const Game = (() => {
         let iDrop = Math.floor(dropIndex / tmpBoard.size)
         let jDrop = dropIndex % tmpBoard.size
 
-        if (/[A-Za-z]/.test(tmpBoard.tiles[iDrop][jDrop])) {
-            return;
-        }
-
         tmpBoard.tiles[iDrop][jDrop] = tmpBoard.tiles[iDrag][jDrag]
         tmpBoard.tiles[iDrag][jDrag] = ogBoard.tiles[iDrag][jDrag]
 
         setBoard(tmpBoard);
-    }, [board]);
+    }, [board, ogBoard]);
 
     const moveTileToTray = useCallback((dropIndex, dragIndex) => {
         console.log("moving tile to tray");
+
+        console.log(dropIndex, dragIndex)
 
         let tmpBoard = JSON.parse(JSON.stringify(board));
         let tmpHand = JSON.parse(JSON.stringify(hand));
@@ -154,28 +151,25 @@ const Game = (() => {
         let iDrag = Math.floor(dragIndex / tmpBoard.size)
         let jDrag = dragIndex % tmpBoard.size
 
-        if (/[A-Za-z]/.test(tmpHand[dropIndex].letter)) {
-            return;
-        }
-
         tmpHand[dropIndex].letter = tmpBoard.tiles[iDrag][jDrag]
+        console.log(ogBoard.tiles[iDrag][jDrag])
         tmpBoard.tiles[iDrag][jDrag] = ogBoard.tiles[iDrag][jDrag]
 
         setBoard(tmpBoard);
         setHand(tmpHand);
-    }, [hand, board]);
+    }, [hand, board, ogBoard]);
 
     if (loading) {
         return (
-            <div>
+            <div className={styles.statusContainer}>
                 <h1>Loading game...</h1>
             </div>
         )
     }
     // temp holder for loading board / getting permissions
-    else if (board === null || hand === null || scores === null || msgArray === null) {
+    else if (board === null || hand === null) {
         return (
-            <div>
+            <div className={styles.statusContainer}>
                 <h1>Game not found</h1>
             </div>
         )
@@ -184,10 +178,10 @@ const Game = (() => {
         return (
             <DndProvider backend={HTML5Backend}>
                 <div className={styles.container}>
-                    <div className={styles.element + styles.left}>
+                    <div className={`${styles.element} ${styles.left}`}>
                         <Board board={board} placeTile={placeTile} moveTileToBoard={moveTileToBoard} ogBoard={ogBoard} />
                     </div>
-                    <div className={styles.element + styles.left}>
+                    <div className={`${styles.element} ${styles.right}`}>
                         <h3>{params.gameID}</h3>
                         <Scores scores={scores} />
                         <GameHistory msgArray={msgArray} />

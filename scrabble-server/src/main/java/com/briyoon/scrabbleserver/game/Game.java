@@ -31,7 +31,7 @@ public class Game {
     // private List<String> jwts = new ArrayList<>();
 
     private static final Map<Character, Integer> drawList = Map.ofEntries(
-        entry('*', 2),
+        // entry('*', 2),
         entry('e', 12),
         entry('a', 9),
         entry('i', 9),

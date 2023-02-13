@@ -37,9 +37,9 @@ public class GameController {
                 .body(json.toString());
         }
         else {
-            res = ResponseEntity.internalServerError()
+            res = ResponseEntity.notFound()
                 .header(HttpHeaders.CONTENT_TYPE, "application/json")
-                .body("Game could not be found");
+                .build();
         }
         return res;
     }

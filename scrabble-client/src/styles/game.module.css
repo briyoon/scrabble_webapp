@@ -12,12 +12,20 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 .left {
     width: auto;
+    justify-self: center;
 }
 
 .right {
     width: 33%;
+}
+
+.statusContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -1,4 +1,4 @@
-.tray-tiles {
+.trayTiles {
     display: flex;
     flex-direction: row;
     flex-basis: var(--tile-size);
