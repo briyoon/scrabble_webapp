@@ -5,9 +5,12 @@ function App() {
 
     return (
         <div className="App">
-            <button className="menubutton" onClick={() => postGame(router)}>Create Game</button>
-            <button className="menubutton" disabled={true}>Resume Game</button>
-            <button className="menubutton" disabled={true}>Solver</button>
+            <button className="menuItem" onClick={() => postGame(router)}>Create Game</button>
+            <button className="menuItem" disabled={true}>Resume Game</button>
+            <button className="menuItem" disabled={true}>Solver</button>
+            <a href="https://github.com/briyoon/scrabble_webapp">
+                <img className="github" src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="Link to Github repo" />
+            </a>
         </div>
     )
 }
