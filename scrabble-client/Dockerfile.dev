@@ -1,0 +1,9 @@
+FROM node:lts-alpine
+ENV WATCHPACK_POLLING true
+ENV NEXT_PUBLIC_SERVER_ADDR "http://localhost:8080"
+WORKDIR /app
+COPY package.json .
+RUN npm i
+CMD ["npm",  "run", "dev"]
+
+EXPOSE 8081

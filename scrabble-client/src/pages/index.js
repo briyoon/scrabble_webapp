@@ -18,14 +18,16 @@ function App() {
 async function postGame(router) {
     console.log("Creating game")
 
+    console.log(process.env.NEXT_PUBLIC_SERVER_ADDR + "/api/games")
+
     const res = await fetch(
-        "/api/games",
+        process.env.NEXT_PUBLIC_SERVER_ADDR + "/api/games",
         {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        cache: 'default'
+        cache: 'default',
         }
     );
 
@@ -37,6 +39,9 @@ async function postGame(router) {
 
         // Nav to new games page
         router.push(`/game/${body.gameID}`)
+    }
+    else {
+        console.log("invalid response")
     }
 }
 

@@ -28,7 +28,7 @@ const Game = (() => {
         let boardString = board.tiles.reduce((acc, row) => {return acc.concat(row)}).join('')
         console.log(boardString)
         const res = await fetch(
-            "/api/games?" + new URLSearchParams({gameID: params.gameID, newBoard: boardString}),
+            process.env.NEXT_PUBLIC_SERVER_ADDR + "/api/games?" + new URLSearchParams({gameID: params.gameID, newBoard: boardString}),
             {
                 method: 'PATCH',
                 headers: {
@@ -80,7 +80,7 @@ const Game = (() => {
         const getGame = async (gameID) => {
             console.log("getting game info");
             const res = await fetch(
-              "/api/games?" + new URLSearchParams({gameID: gameID}),
+              process.env.NEXT_PUBLIC_SERVER_ADDR + "/api/games?" + new URLSearchParams({gameID: gameID}),
               {
                 method: 'GET',
                 headers: {

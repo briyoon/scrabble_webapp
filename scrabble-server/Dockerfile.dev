@@ -1,6 +1,6 @@
 FROM maven:3.9.0-amazoncorretto-17
 WORKDIR /app
-COPY . .
-CMD mvn spring-boot:run
+# COPY . .
+# CMD mvn spring-boot:run
 
 EXPOSE 8080
