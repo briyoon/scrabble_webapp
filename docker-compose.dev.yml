@@ -1,0 +1,47 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo:6.0.4
+    expose:
+      - 27017
+    volumes:
+      - mongodb-data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: rootDev
+      MONGO_INITDB_ROOT_PASSWORD: password
+    networks:
+      - app_network
+  frontend:
+    build:
+      context: ./scrabble-client
+      # dockerfile: Dockerfile.dev
+    command: npm run dev
+    volumes:
+      # - type: bind
+      #   source: ./scrabble-client
+      #   target: /app
+
+      - ./scrabble-client:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - app_network
+    ports:
+      - 127.0.0.1:8081:8080
+  backend:
+    build:
+      context: ./scrabble-server
+      # dockerfile: Dockerfile.dev
+    command: mvn spring-boot:run
+    volumes:
+      - ./scrabble-server:/app
+    depends_on:
+      - mongodb
+    networks:
+      - app_network
+    ports:
+      - 127.0.0.1:8080:8080
+networks:
+  app_network:
+volumes:
+  mongodb-data:
