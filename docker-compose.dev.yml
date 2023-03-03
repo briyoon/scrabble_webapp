@@ -2,14 +2,15 @@ version: '3'
 services:
   mongodb:
     image: mongo:6.0.4
-    # expose:
     ports:
       - 127.0.0.1:27018:27017
+    expose:
+      - 27017
     volumes:
       - mongodb-data:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: rootDev
-      MONGO_INITDB_ROOT_PASSWORD: password
+    # environment:
+      # MONGO_INITDB_ROOT_USERNAME: rootDev
+      # MONGO_INITDB_ROOT_PASSWORD: password
     networks:
       - app_network
   frontend:

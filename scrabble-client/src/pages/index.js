@@ -1,15 +1,17 @@
 import { useRouter } from "next/router";
+// import
 
 function App() {
     const router = useRouter();
 
     return (
-        <div className="App">
-            <button className="menuItem" onClick={() => postGame(router)}>Create Game</button>
-            <button className="menuItem" disabled={true}>Resume Game</button>
-            <button className="menuItem" disabled={true}>Solver</button>
-            <a href="https://github.com/briyoon/scrabble_webapp">
-                <img className="github" src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="Link to Github repo" />
+        <div className="flex flex-col justify-center items-center w-screen h-screen">
+            <button className="main-button" onClick={() => postGame(router)}>Create Game</button>
+            <button className="main-button" disabled={true}>Resume Game</button>
+            <button className="main-button" disabled={true}>Puzzle Mode</button>
+            <button className="main-button" disabled={true}>Solver</button>
+            <a className="w-24 h-24 dark:invert my-4" href="https://github.com/briyoon/scrabble_webapp">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="Link to Github repo" />
             </a>
         </div>
     )

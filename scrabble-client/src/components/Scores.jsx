@@ -1,15 +1,10 @@
 import React from 'react'
-import styles from './Scores.module.css'
 
-const Scores = (({ scores }) => {
+export default function Scores({ scores }) {
     return (
-        <div className={styles.scores}>
-            <div className={styles.container}>
-                <h3 className={styles.score} >CPU: {scores.cpu}</h3>
-                <h3 className={styles.score} >You: {scores.player}</h3>
-            </div>
+        <div className="flex flex-row flex-1 justify-center items-center">
+            <h3 className="m-1 text-[calc(var(--tile-size)/2.5)]" >CPU: {scores.cpu}</h3>
+            <h3 className="m-1 text-[calc(var(--tile-size)/2.5)]" >You: {scores.player}</h3>
         </div>
     )
-});
-
-export default Scores;
+}

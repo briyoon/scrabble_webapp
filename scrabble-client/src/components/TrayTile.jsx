@@ -4,12 +4,10 @@ import { useDrag, useDrop } from 'react-dnd';
 
 import DnDTypes from '../DnDTypes'
 
-import styles from './Tile.module.css'
-
 const TrayTile = (({ id, index, letter, swapTile, preview, moveTileToTray }) => {
-    let cssClass = styles.moveable
+    let cssClass = "moveable"
     if (letter === "") {
-        cssClass = styles.blank
+        cssClass = "blank"
     }
 
     const ref = useRef(null)
@@ -79,10 +77,10 @@ const TrayTile = (({ id, index, letter, swapTile, preview, moveTileToTray }) => 
         }
     }, [letter]);
 
-    if (cssClass === styles.moveable) {
+    if (cssClass === "moveable") {
         return (
             <div
-                className={`${styles.tile} ${(isDragging ? styles.blank : cssClass)}`}
+                className={`tile ${(isDragging ? "blank" : cssClass)} mx-0.5`}
                 ref={drag}
                 data-handler-id={handlerId}
                 // role={preview ? 'TrayTilePreview' : 'TrayTile'}
@@ -94,7 +92,7 @@ const TrayTile = (({ id, index, letter, swapTile, preview, moveTileToTray }) => 
     else {
         return (
             <div
-                className={`${styles.tile} ${(isDragging ? styles.blank : cssClass)}`}
+                className={`tile ${(isDragging ? "blank" : cssClass)} mx-0.5`}
                 data-handler-id={handlerId}
                 // role={preview ? 'TrayTilePreview' : 'TrayTile'}
             >

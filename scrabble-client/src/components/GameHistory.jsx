@@ -1,12 +1,14 @@
 
-import styles from './GameHistory.module.css'
 
-const GameHistory = (({ msgArray }) => {
+export default function GameHistory({ msgArray }) {
     return (
-        <div className={styles.gameHistory}>
-            <textarea className={styles.textarea} value={msgArray.join('\n')} readOnly/>
-        </div>
+        <textarea
+            className="bg-tan rounded-lg resize-none
+            h-[calc(9*var(--tile-size))] w-[calc(8*var(--tile-size))]
+            text-[calc(var(--tile-size)/3)]
+            border-secondaryLight border-2 px-1 py-0.5"
+            value={msgArray.join('\n')}
+            readOnly
+        />
     );
-});
-
-export default GameHistory;
+}

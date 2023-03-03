@@ -9,7 +9,6 @@ import Scores from "../../components/Scores";
 import GameHistory from "../../components/GameHistory";
 import Tray from "../../components/Tray";
 
-import styles from '../../styles/game.module.css';
 // import { CustomDragLayer } from "../components/CustomDragLayer";
 
 const Game = (() => {
@@ -27,6 +26,7 @@ const Game = (() => {
         console.log("Submitting move")
         let boardString = board.tiles.reduce((acc, row) => {return acc.concat(row)}).join('')
         console.log(boardString)
+        console.log(process.env.NEXT_PUBLIC_SERVER_ADDR + "/api/games?" + new URLSearchParams({gameID: params.gameID, newBoard: boardString}))
         const res = await fetch(
             process.env.NEXT_PUBLIC_SERVER_ADDR + "/api/games?" + new URLSearchParams({gameID: params.gameID, newBoard: boardString}),
             {
@@ -34,7 +34,8 @@ const Game = (() => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                cache: 'default'
+                cache: 'default',
+                mode: 'no-cors'
             }
         );
 
@@ -159,36 +160,27 @@ const Game = (() => {
         setHand(tmpHand);
     }, [hand, board, ogBoard]);
 
-    if (loading) {
+    // loading page
+    if (board === null || hand === null) {
         return (
-            <div className={styles.statusContainer}>
-                <h1>Loading game...</h1>
-            </div>
-        )
-    }
-    // temp holder for loading board / getting permissions
-    else if (board === null || hand === null) {
-        return (
-            <div className={styles.statusContainer}>
-                <h1>Game not found</h1>
+            <div className="flex justify-center items-center w-screen h-screen">
+                <h1 className="text-3xl">Loading</h1>
             </div>
         )
     }
     else {
         return (
             <DndProvider backend={HTML5Backend}>
-                <div className={styles.container}>
-                    <div className={`${styles.element} ${styles.left}`}>
-                        <Board board={board} placeTile={placeTile} moveTileToBoard={moveTileToBoard} ogBoard={ogBoard} />
-                    </div>
-                    <div className={`${styles.element} ${styles.right}`}>
-                        <h3>{params.gameID}</h3>
+                <div className="flex justify-center items-center h-screen">
+                    <Board board={board} placeTile={placeTile} moveTileToBoard={moveTileToBoard} ogBoard={ogBoard} />
+                    <div className="flex flex-col items-center my-auto">
+                        <h3 className="text-[calc(var(--tile-size)/1.5)]">{params.gameID}</h3>
                         <Scores scores={scores} />
                         <GameHistory msgArray={msgArray} />
                         <Tray hand={hand} setHand={setHand} moveTileToTray={moveTileToTray} />
                         <div>
-                            <button onClick={() => submitBoard()}>Submit</button>
-                            <button onClick={() => resetState()}>Reset</button>
+                            <button className="game-button" onClick={() => submitBoard()}>Submit</button>
+                            <button className="game-button" onClick={() => resetState()}>Reset</button>
                         </div>
                     </div>
                 </div>

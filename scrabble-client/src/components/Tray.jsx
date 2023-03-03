@@ -3,7 +3,6 @@ import { useCallback } from "react"
 
 import TrayTile from "./TrayTile"
 
-import styles from './Tray.module.css'
 
 function Tray({ hand, setHand, resetState, moveTileToTray}) {
     const swapTile = useCallback((dragIndex, hoverIndex) => {
@@ -29,10 +28,8 @@ function Tray({ hand, setHand, resetState, moveTileToTray}) {
     }, [hand])
 
     return (
-        <div className={styles.tray}>
-            <div className={styles.trayTiles}>
-                {hand.map((tile, index) => renderTile(tile, index))}
-            </div>
+        <div className="flex flex-row mx-16 my-4 justify-center">
+            {hand.map((tile, index) => renderTile(tile, index))}
         </div>
     )
 }

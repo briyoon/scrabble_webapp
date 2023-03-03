@@ -4,48 +4,46 @@ import { useDrag, useDrop } from 'react-dnd';
 
 import DnDTypes from '../DnDTypes';
 
-import styles from './Tile.module.css'
-
 function BoardTile({ id, value, placeTile, moveTileToBoard, ogTile }) {
     let cssClass;
     let letter;
 
     switch (value) {
         case ")":
-            cssClass = styles.qw;
+            cssClass = "qw";
             letter = "Quad\nWord"
             break;
         case "}":
-            cssClass = styles.tw;
+            cssClass = "tw";
             letter = "TW"
             break;
         case "]":
-            cssClass = styles.dw;
+            cssClass = "dw";
             letter = "DW"
             break;
         case "(":
-            cssClass = styles.ql;
+            cssClass = "ql";
             letter = "Quad\nLetter"
             break;
         case "{":
-            cssClass = styles.tl;
+            cssClass = "tl";
             letter = "TL"
             break;
         case "[":
-            cssClass = styles.dl;
+            cssClass = "dl";
             letter = "DL"
             break;
         case ".":
-            cssClass = styles.blank;
+            cssClass = "blank";
             letter = ""
             break;
         default:
             // if on ogBoard, tile cant be moved
             if (ogTile === value) {
-                cssClass = styles.filled
+                cssClass = "filled"
             }
             else {
-                cssClass = styles.moveable;
+                cssClass = "moveable";
             }
             letter = value.toLowerCase()
             break;
@@ -82,23 +80,23 @@ function BoardTile({ id, value, placeTile, moveTileToBoard, ogTile }) {
 
     const checkEmpty = (() => {
         console.log(cssClass)
-        return (cssClass !== styles.filled) || (cssClass !== styles.moveable)
+        return (cssClass !== "filled") || (cssClass !== "moveable")
     })
 
-    if (cssClass === styles.moveable) {
+    if (cssClass === "moveable") {
         return (
             <div
-                className={`${styles.tile} ${cssClass}`}
+                className={`tile ${cssClass}`}
                 ref={drag}
             >
                 {letter}
             </div>
         )
     }
-    else if (cssClass !== styles.filled) {
+    else if (cssClass !== "filled") {
         return (
             <div
-                className={`${styles.tile} ${cssClass}`}
+                className={`tile ${cssClass}`}
                 ref={drop}
             >
                 {letter}
@@ -109,7 +107,7 @@ function BoardTile({ id, value, placeTile, moveTileToBoard, ogTile }) {
         return (
             <div
                 id={id}
-                className={`${styles.tile} ${cssClass}`}
+                className={`tile ${cssClass}`}
             >
                 {letter}
             </div>
