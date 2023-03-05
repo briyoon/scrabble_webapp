@@ -34,8 +34,6 @@ const Game = (() => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                cache: 'default',
-                mode: 'no-cors'
             }
         );
 
@@ -173,7 +171,7 @@ const Game = (() => {
             <DndProvider backend={HTML5Backend}>
                 <div className="flex justify-center items-center h-screen">
                     <Board board={board} placeTile={placeTile} moveTileToBoard={moveTileToBoard} ogBoard={ogBoard} />
-                    <div className="flex flex-col items-center my-auto">
+                    <div className="flex flex-col items-center my-auto mx-16">
                         <h3 className="text-[calc(var(--tile-size)/1.5)]">{params.gameID}</h3>
                         <Scores scores={scores} />
                         <GameHistory msgArray={msgArray} />

@@ -24,7 +24,7 @@ module.exports = {
         tan: "#D2B48C",
 
         primaryDark: "#242424",
-        secondaryDark: "#C492B1",
+        secondaryDark: "#e39ac7",
         // triDark: "#343434"
         triDark: "#494949"
       }

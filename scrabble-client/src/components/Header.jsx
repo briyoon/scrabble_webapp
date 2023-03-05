@@ -1,33 +1,32 @@
-import { useEffect, useState } from 'react';
-import { useTheme } from "next-themes";
-import{ SunIcon, MoonIcon } from "@heroicons/react/solid";
-
+import { useEffect } from "react";
+import useThemeToggle from "@/useThemeToggle";
+import { SunIcon, MoonIcon } from "@heroicons/react/24/solid"
 
 export default function Header() {
-    const { systemTheme, theme, setTheme } = useTheme();
-    const [ mounted, setMounted ] = useState(false);
+    const [theme, setTheme] = useThemeToggle();
 
-    useEffect(() =>{
-        setMounted(true);
-    },[])
+    const themeToggle = () => {setTheme(theme === "dark" ? "light" : "dark")}
+    const toggleClass = "fixed top-0 right-0 transition-all duration-500 text-primaryDark dark:text-primaryLight text-2xl rounded-lg w-12 h-12 hover:cursor-pointer"
 
-    const renderThemeChanger = () => {
-        console.log(mounted)
-        if (!mounted) return null;
+    useEffect(() => {}, [theme])
 
-        const currentTheme = theme === "system" ? systemTheme : theme;
-        console.log(currentTheme)
-
-        if (currentTheme == "dark") {
-            return (<SunIcon className="w-16 h-16" role="button" onClick={() => setTheme('light')} />)
+    const renderToggleTheme = () => {
+        if (theme === "dark") {
+            return (
+                <SunIcon className={toggleClass} onClick={() => themeToggle()} />
+            )
         }
-        return (<MoonIcon className="w-16 h-16" role="button" onClick={() => setTheme('dark')} />)
+        return (
+            <MoonIcon className={toggleClass} onClick={() => themeToggle()} />
+        )
     }
 
+
     return (
-        <header className="fixed top-0 left-0 w-screen h-16 m-0">
-            <div>
-                {renderThemeChanger()}
+        <header className="fixed top-0 left-0 w-screen h-16 m-0 bg-transparent">
+            <div className="flex h-full justify-center items-center">
+                {renderToggleTheme()}
+                <button className="main-button h-12 w-24 text-xl m-0 border-4 hover:rounded-xl">Home</button>
             </div>
         </header>
     )

@@ -4,17 +4,14 @@
 
 @layer base {
   * {
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
     --height: 80vh;
     --width: 80vw;
     --tile-size: calc(min(var(--height), var(--width)) / 15);
-    @apply font-display
+    @apply font-display box-border
   }
 
   body {
-    @apply w-screen h-screen max-w-full max-h-full m-0 bg-primaryLight dark:bg-primaryDark
+    @apply w-screen h-screen max-w-full max-h-full m-0 bg-primaryLight dark:bg-primaryDark transition-colors duration-300 text-black dark:text-white
   }
 }
 
@@ -27,17 +24,18 @@
 
     hover:bg-secondaryLight hover:text-primaryLight
     dark:hover:bg-secondaryDark dark:hover:text-primaryDark
-    hover:rounded-3xl transition-all duration-100 ease-linear cursor-pointer
+    hover:rounded-3xl cursor-pointer
+
+    transition-all duration-300
 
     disabled:bg-triLight  disabled:hover:text-primaryLight  disabled:text-primaryLight
     dark:disabled:bg-triDark  dark:disabled:hover:text-primaryDark  dark:disabled:text-primaryDark
-    disabled:hover:rounded-[2.5rem] disabled:hover:cursor-default
-    disabled:transition-none disabled:border-0
+    disabled:hover:rounded-[2.5rem] disabled:hover:cursor-default disabled:border-0
   }
 
   .game-button {
     @apply w-[calc(2*var(--tile-size))] h-[var(--tile-size)] mx-2 font-bold
-    rounded-lg border-2 transition-all duration-100 ease-linear cursor-pointer
+    rounded-lg border-2 cursor-pointer
 
     border-secondaryLight text-secondaryLight
     hover:text-primaryLight hover:bg-secondaryLight
@@ -51,9 +49,10 @@
     cursor-pointer border-2 rounded-lg justify-center
     text-center font-bold select-none text-[calc(var(--tile-size)/3)]
 
-  text-black border-secondaryLight
-  dark:border-primaryDark dark:hover:border-white
-  dark:transition-all dark:duration-100 dark:ease-linear
+    transition-colors duration-300
+
+    text-black border-secondaryLight
+    dark:border-primaryDark
   }
 
   .tw {
