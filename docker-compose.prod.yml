@@ -6,9 +6,9 @@ services:
       - 27017
     volumes:
       - mongodb-data:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: rootDev
-      MONGO_INITDB_ROOT_PASSWORD: password
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: rootDev
+    #   MONGO_INITDB_ROOT_PASSWORD: password
     networks:
       - app_network
   frontend:
@@ -17,7 +17,7 @@ services:
     networks:
       - app_network
     ports:
-      - 127.0.0.1:8081:8080
+      - 127.0.0.1:8081:8081
   backend:
     build:
       context: ./scrabble-server
